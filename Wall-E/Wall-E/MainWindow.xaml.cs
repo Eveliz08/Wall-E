@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Wall_E.Wall_EEngine;
 
 namespace Wall_E
 {
@@ -30,9 +31,11 @@ namespace Wall_E
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             // Obtiene la entrada del usuario
-            string entrada = TextBox.Text;
+            string entrada = TextBox.Text.Replace("\r","");
             // Limpia el lienzo para dibujar una nueva forma
             lienzo.Children.Clear();
+
+            Lexer.SeparaPorLinea(Lexer.Tokenizador(entrada));
 
             // Dibuja algo en función de la entrada
             DibujarFormaEnCanvas(entrada);
