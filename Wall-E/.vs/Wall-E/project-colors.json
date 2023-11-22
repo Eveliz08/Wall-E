@@ -5,6 +5,11 @@
       "ProjectGuid": "556e8dfa-85fa-4234-b8b2-ffc8fb613ed4",
       "DisplayName": "Wall-E",
       "ColorIndex": 0
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Miscellaneous Files",
+      "ColorIndex": -1
     }
   },
   "NextColorIndex": 1

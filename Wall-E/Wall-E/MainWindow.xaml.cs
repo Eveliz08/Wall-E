@@ -14,7 +14,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Wall_E.Wall_EEngine;
+using Wall.Wall_EEngine;
+using Point = Wall.Wall_EEngine.Point;
+//using Point = Wall_E.Wall_EEngine.Point;
 
 namespace Wall_E
 {
@@ -31,14 +33,18 @@ namespace Wall_E
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             // Obtiene la entrada del usuario
-            string entrada = TextBox.Text.Replace("\r","");
+            string entrada = TextBox.Text.Replace("\r", "");
             // Limpia el lienzo para dibujar una nueva forma
             lienzo.Children.Clear();
 
-            Lexer.SeparaPorLinea(Lexer.Tokenizador(entrada));
+            List<List<string>> lineas = Lexer.SeparaPorLinea(Lexer.Tokenizador(entrada));
+            foreach (var line in lineas)
+            {
+                Parser.QueEs(String.Join(" ", line), lienzo);
+            }
 
             // Dibuja algo en función de la entrada
-            DibujarFormaEnCanvas(entrada);
+           // DibujarFormaEnCanvas(entrada);
 
             // Realiza la interpretación de acuerdo a la entrada
             //string resultado = InterpretarEntrada(entrada);
@@ -50,12 +56,10 @@ namespace Wall_E
 
         private void DibujarFormaEnCanvas(string entrada)
         {
-            // Remueve cualquier elemento previo en el lienzo
-            lienzo.Children.Clear();
 
             if (EsComandoDibujo(entrada))
             {
-                EjecutarComandoDibujo(entrada);
+                EjecutarComandoDibujo(entrada, lienzo);
             }
             else
             {
@@ -69,12 +73,13 @@ namespace Wall_E
             return entrada.ToLower() == "punto" || entrada.ToLower() == "dos puntos" || entrada.ToLower() == "circunferencia";
         }
 
-        private void EjecutarComandoDibujo(string comando)
+        private void EjecutarComandoDibujo(string comando, Canvas lienzo)
         {
             switch (comando.ToLower())
             {
                 case "punto":
-                    DibujarPunto();
+                    Point point = new Point(lienzo);
+                    point.Dibuja(point, lienzo);
                     break;
                     /*case "dos puntos":
                         DibujarDosPuntos();
@@ -99,20 +104,7 @@ namespace Wall_E
 
             lienzo.Children.Add(resultadoTextBlock);
         }
-        private void DibujarPunto()
-        {
-            Ellipse punto = new Ellipse
-            {
-                Width = 5,
-                Height = 5,
-                Fill = Brushes.Black
-            };
 
-            Canvas.SetLeft(punto, 100);
-            Canvas.SetTop(punto, 20);
-
-            lienzo.Children.Add(punto);
-        }
 
         // Función para interpretar la entrada del usuario
         private string InterpretarEntrada(string entrada)
