@@ -80,6 +80,9 @@ namespace Wall.Wall_EEngine
                 case '\n': return true;
                 case '\r': return true;
                 case ';': return true;
+                case '{': return true;
+                case '}': return true;
+
             }
             return false;
         }

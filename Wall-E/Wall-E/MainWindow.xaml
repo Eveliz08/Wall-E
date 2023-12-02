@@ -12,7 +12,7 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Column="0">
+        <StackPanel x:Name="stack" Grid.Column="0">
             <Menu>
                 <MenuItem Header="Menu">
                     <MenuItem Header="Save" Click="Click_Guardar"/>
@@ -25,17 +25,16 @@
                 BorderBrush="#FF12470A" Background="#FF889586" FontSize="18" FontWeight="Bold" FontFamily="Segoe UI Variable Small" 
                 Click="Button_Click" IsEnabled="True"/>
             <TextBlock FontSize="14" FontWeight="Normal" FontFamily="Lucida Bright" Margin="0,5,0,5" ><Run Language="en-gb" Text="    "/><Run Text=" "/><Run Text="Escribe tu código aquí:"/></TextBlock>
-            <ScrollViewer VerticalScrollBarVisibility="Disabled" >
-                <TextBox x:Name="TextBox" TextWrapping="Wrap" AcceptsReturn="True"  Height="471" Width="457" VerticalScrollBarVisibility="Visible" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+            <ScrollViewer VerticalScrollBarVisibility="Disabled" Width="450" >
+                <TextBox x:Name="TextBox" TextWrapping="Wrap" AcceptsReturn="True"  Height="457" Width="436" VerticalScrollBarVisibility="Visible" Margin="0,0,5,0" />
             </ScrollViewer>
             <!-- Agregar una barra de desplazamiento -->
 
         </StackPanel>
 
-        <StackPanel Grid.Column="1">
-            <TextBlock FontSize="14" FontWeight="Normal" FontFamily="Lucida Bright" Margin="0,5,0,5"><Run Text="   "/><Run Language="en-gb" Text="  "/><Run Text="Resultado:"/></TextBlock>
-            <Canvas x:Name="lienzo" Background="LightGray" Width="465" Height="544" />
-        </StackPanel>
+        
+            <Canvas Grid.Column="1" x:Name="lienzo" Background="LightGray" Margin="5,5,5,5" />
+       
 
     </Grid>
 </Window>

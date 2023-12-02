@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Wall.Wall_EEngine;
+using Wall_E.Wall_EEngine;
 using Point = Wall.Wall_EEngine.Point;
 //using Point = Wall_E.Wall_EEngine.Point;
 
@@ -32,19 +33,50 @@ namespace Wall_E
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+           // MessageBox.Show(lienzo.ActualHeight.ToString()+" "+ lienzo.ActualWidth.ToString());
+
+            Parser.Reset();
             // Obtiene la entrada del usuario
-            string entrada = TextBox.Text.Replace("\r", "");
+            string entrada = TextBox.Text.Replace("\r", "").Replace("\n", "");
             // Limpia el lienzo para dibujar una nueva forma
             lienzo.Children.Clear();
 
-            List<List<string>> lineas = Lexer.SeparaPorLinea(Lexer.Tokenizador(entrada));
-            foreach (var line in lineas)
+
+            try
             {
-                Parser.QueEs(String.Join(" ", line), lienzo);
+                DibujarFormaEnCanvas(entrada);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
+
+            //List<List<string>> lineas = Lexer.SeparaPorLinea(Lexer.Tokenizador(entrada));
+            //try
+            //{
+            //    foreach (var line in lineas)
+            //    {
+
+            //        ///////////////////////
+
+            //        if (line.Last() != ";") throw new Exception("Falta punto y coma");
+
+            //        line.Remove(line.Last());
+
+            //        Parser.QueEs(String.Join(" ", line).Trim(), lienzo);
+
+            //        //////////////
+
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            //}
+
             // Dibuja algo en función de la entrada
-           // DibujarFormaEnCanvas(entrada);
+
 
             // Realiza la interpretación de acuerdo a la entrada
             //string resultado = InterpretarEntrada(entrada);
@@ -70,17 +102,38 @@ namespace Wall_E
         {
             // Agrega lógica para determinar si la entrada es un comando de dibujo
             // Por ejemplo, puedes verificar si la entrada es "punto", "dos puntos", "circunferencia", etc.
-            return entrada.ToLower() == "punto" || entrada.ToLower() == "dos puntos" || entrada.ToLower() == "circunferencia";
+            return entrada.ToLower() == "punto" || entrada.ToLower() == "linea" || entrada.ToLower() == "circle";
         }
 
         private void EjecutarComandoDibujo(string comando, Canvas lienzo)
         {
             switch (comando.ToLower())
             {
-                case "punto":
+                case "circle":
+
                     Point point = new Point(lienzo);
-                    point.Dibuja(point, lienzo);
+                    point.Dibuja(lienzo);
+                    Circle circle = new Circle(point, 80);
+                    if (Circle.SePuedeDibujar(circle, lienzo))
+                        circle.Dibuja(lienzo);
+                    else
+                        throw new Exception("La circunferencia no cabe");
                     break;
+                case "linea":
+                    Point point1 = new Point(lienzo);
+                    point1.Dibuja(lienzo);
+                    Point point2 = new Point(lienzo);
+                    point2.Dibuja(lienzo);
+                    Linea linea = new Linea(point1, point2);
+                    linea.Dibuja(lienzo);
+
+                    break;
+                case "punto":
+                    Point p = new Point(lienzo);
+                    p.Dibuja(lienzo); break;
+              
+
+
                     /*case "dos puntos":
                         DibujarDosPuntos();
                         break;

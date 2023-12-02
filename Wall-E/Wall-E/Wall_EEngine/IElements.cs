@@ -7,9 +7,9 @@ using System.Windows.Controls;
 
 namespace Wall_E.Wall_EEngine
 {
-    public interface Elements<T>
+    public interface IElements
     {
-        void Dibuja(T type, Canvas lienzo);
+        void Dibuja(Canvas lienzo);
         
     }
 }

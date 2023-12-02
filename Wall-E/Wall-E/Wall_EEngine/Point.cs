@@ -12,32 +12,32 @@ using Point = Wall.Wall_EEngine.Point;
 
 namespace Wall.Wall_EEngine
 {
-    public class Point:Elements<Point>
+    public class Point:IElements
     {
-        public int x { get; private set; }
-        public int y { get; private set; }
+        public double x { get; private set; }
+        public double y { get; private set; }
+
         public int grosor;
 
         public Point(Canvas lienzo)
         {
-            grosor = 5;
+            grosor = 4;
             Random rnd = new Random();
-            x = rnd.Next(0, (int)lienzo.ActualWidth);
-            y = rnd.Next(0, (int)lienzo.ActualHeight);
-
+            x =  rnd.Next(0, (int)lienzo.ActualWidth);
+            y =  rnd.Next(0, (int)lienzo.ActualHeight);
         }
         //Metodo para dibujar un punto en el lienzo
-        public void Dibuja( Point p, Canvas lienzo)
+        public void Dibuja(Canvas lienzo)
         {
             Ellipse punto = new Ellipse
             {
-                Width = p.grosor,
-                Height = p.grosor,
+                Width = this.grosor,
+                Height = this.grosor,
                 Fill = Brushes.Black
             };
 
-            Canvas.SetLeft(punto, p.x);
-            Canvas.SetTop(punto, p.y);
+            Canvas.SetLeft(punto, this.x);
+            Canvas.SetTop(punto, this.y);
 
             lienzo.Children.Add(punto);
         }
