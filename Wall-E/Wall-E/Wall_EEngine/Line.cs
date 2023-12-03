@@ -19,51 +19,129 @@ namespace Wall_E.Wall_EEngine
         {
             this.p1 = p1;
             this.p2 = p2;
-            this.pendiente = p2.y - p1.y / p2.x - p1.x;
+            this.pendiente = (p2.y - p1.y) / (p2.x - p1.x);
         }
 
-        public void Dibuja(Canvas lienzo)
+
+        public virtual Point[] IntersectosPendienteNegativa(double m, Point p, Canvas lienzo)
         {
-            
-            Line line = new Line();
-            //Color
-            line.Stroke = Brushes.Black;
-            line.X1 = this.p1.x;
-            line.Y1 = this.p1.y;
-            line.X2 = this.p2.x;
-            line.Y2 = this.p2.y;
+            Point[] result = new Point[2];
+            double n = p.y - m * p.x;
+            double x = (lienzo.ActualHeight - n) / m;
+            //X
+            result[0] = new Point(x, lienzo.ActualHeight);
+            double y = (lienzo.ActualWidth * m) + n;
+            //Y
+            result[1] = new Point(lienzo.ActualWidth, y);
+            return result;
 
-           // double factor = lienzo.Width/Math.Sqrt(Math.Pow(line.X2-line.X1, 2) + Math.Pow(line.Y2-line.Y1, 2));
-           // line.RenderTransform = new ScaleTransform(factor,factor);
+        }
+
+        public virtual void Dibuja(Canvas lienzo)
+        {
+
+            //Calculo de la pendiente
+            double pendiente = this.pendiente;
+            //Interseccion con el eje Y
+            double n = this.p1.y - pendiente * this.p1.x;
+            //Interseccion con el eje X
+            double cero = -n / pendiente;
+            //Interseccion con los ejes derechos del CANVAS
+            Point[] points = IntersectosPendienteNegativa(pendiente, this.p1, lienzo);
+            Line line = new Line
+            {
+                //Color
+                Stroke = Brushes.Black
+            };
+
+            Point intersectoY = new Point(0, n);
+            Point intersectoX = new Point(cero, 0);
+
+            if (pendiente > 0)
+            {
+                if (n > cero)
+                {
+                    line.X1 = intersectoY.x;
+                    line.Y1 = intersectoY.y;
+                    if (points[0].x < points[1].x)
+                    {
+                        line.X2 = points[0].x;
+                        line.Y2 = points[0].y;
+                    }
+                    else
+                    {
+                        line.X2 = points[1].x;
+                        line.Y2 = points[1].y;
+                    }
+                    this.p1.Dibuja(lienzo);
+                    this.p2.Dibuja(lienzo);
+                    lienzo.Children.Add(line);
+
+                }
+                else
+                {
+                    line.X1 = intersectoX.x;
+                    line.Y1 = intersectoX.y;
+                    if (points[0].x < points[1].x)
+                    {
+                        line.X2 = points[0].x;
+                        line.Y2 = points[0].y;
+                    }
+                    else
+                    {
+                        line.X2 = points[1].x;
+                        line.Y2 = points[1].y;
+                    }
+                    this.p1.Dibuja(lienzo);
+                    this.p2.Dibuja(lienzo);
+                    lienzo.Children.Add(line);
+                }
+            }
+            else
+            {
+                if (points[1].x > intersectoX.x)
+                {
+                    line.X1 = intersectoX.x;
+                    line.Y1 = intersectoX.y;
+                    if (points[0].x > intersectoY.x)
+                    {
+                        line.X2 = points[0].x;
+                        line.Y2 = points[0].y;
+
+                    }
+                    else
+                    {
+                        line.X2 = intersectoY.x;
+                        line.Y2 = intersectoY.y;
+                    }
+                    this.p1.Dibuja(lienzo);
+                    this.p2.Dibuja(lienzo);
+                    lienzo.Children.Add(line);
+
+                }
+                else
+                {
+                    line.X1 = points[1].x;
+                    line.Y1 = points[1].y;
+                     if (points[0].x > intersectoY.x)
+                    {
+                        line.X2 = points[0].x;
+                        line.Y2 = points[0].y;
+
+                    }
+                    else
+                    {
+                        line.X2 = intersectoY.x;
+                        line.Y2 = intersectoY.y;
+                    }
+                    this.p1.Dibuja(lienzo);
+                    this.p2.Dibuja(lienzo);
+                    lienzo.Children.Add(line);
 
 
-            //double pendiente = this.pendiente;
-            ////Calcular interseccion con el borde derecho del lienzo
-            //double yInterseccionDerecha = this.p2.y + (lienzo.Width - this.p2.x) / pendiente;
-            ////Calcular interseccion con el borde inferior del lienzo
-            //double xInterseccionInferior = this.p2.x + (lienzo.Height - this.p2.y) / pendiente;
+                }
+            }
 
-            //if(yInterseccionDerecha >= 0 && yInterseccionDerecha <= lienzo.Height)
-            //{
-            //    line.X1 = this.p1.x;
-            //    line.Y1 = this.p1.y;
-            //    line.X2 = lienzo.Width;
-            //    line.Y2 = yInterseccionDerecha;
-            //}
-            //else
-            //{
-            //    line.X1 = this.p1.x;
-            //    line.Y1 = this.p1.y;
-            //    line.X2 = xInterseccionInferior;
-            //    line.Y2 = lienzo.Height;
-            //}
-
-            lienzo.Children.Add(line);
-
-
-          
-               // line.StrokeDashArray = new DoubleCollection(new double[] { 4, 2 });
-           
         }
     }
 }
