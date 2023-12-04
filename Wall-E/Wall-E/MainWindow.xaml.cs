@@ -33,7 +33,7 @@ namespace Wall_E
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-           // MessageBox.Show(lienzo.ActualHeight.ToString()+" "+ lienzo.ActualWidth.ToString());
+            // MessageBox.Show(TextBox.ActualHeight.ToString()+" "+ TextBox.ActualWidth.ToString());
 
             Parser.Reset();
             // Obtiene la entrada del usuario
@@ -102,7 +102,7 @@ namespace Wall_E
         {
             // Agrega lógica para determinar si la entrada es un comando de dibujo
             // Por ejemplo, puedes verificar si la entrada es "punto", "dos puntos", "circunferencia", etc.
-            return entrada.ToLower() == "punto" || entrada.ToLower() == "linea" || entrada.ToLower() == "circle";
+            return entrada.ToLower() == "punto" || entrada.ToLower() == "linea" || entrada.ToLower() == "ray" || entrada.ToLower() == "segmento" || entrada.ToLower() == "circle";
         }
 
         private void EjecutarComandoDibujo(string comando, Canvas lienzo)
@@ -121,17 +121,37 @@ namespace Wall_E
                     break;
                 case "linea":
                     Point point1 = new Point(lienzo);
-                    point1.Dibuja(lienzo);
+                    //  point1.Dibuja(lienzo);
                     Point point2 = new Point(lienzo);
-                    point2.Dibuja(lienzo);
+                    // point2.Dibuja(lienzo);
                     Linea linea = new Linea(point1, point2);
+                    MessageBox.Show(linea.pendiente.ToString());
+
                     linea.Dibuja(lienzo);
 
                     break;
                 case "punto":
                     Point p = new Point(lienzo);
                     p.Dibuja(lienzo); break;
-              
+                case "ray":
+                    Point point3 = new Point(lienzo);
+                    //  point1.Dibuja(lienzo);
+                    Point point4 = new Point(lienzo);
+                    // point2.Dibuja(lienzo);
+                    Ray ray = new Ray(point3, point4);
+                    ray.Dibuja(lienzo);
+                    break;
+                case "segmento":
+                    //  point1.Dibuja(lienzo);
+                    Point point5 = new Point(lienzo);
+                    //  point1.Dibuja(lienzo);
+                    Point point6 = new Point(lienzo);
+                    // point2.Dibuja(lienzo);
+                    Segment segment = new Segment(point5, point6);
+                    segment.Dibuja(lienzo);
+                    break;
+
+
 
 
                     /*case "dos puntos":
