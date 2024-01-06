@@ -1,3 +1,0 @@
-point P;
-draw {P};
-draw{circle(P,100)};
